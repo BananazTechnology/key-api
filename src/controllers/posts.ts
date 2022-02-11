@@ -1,14 +1,33 @@
 import { Request, Response, NextFunction } from 'express'
+import { ApiKey } from '../classes/ApiKey'
+import { db } from '../db'
 // import axios, { AxiosResponse } from 'axios'
 
-let count = 0
+let keys = ApiKey.getAllKeys()
 
-// getting all posts
 const getKey = async (req: Request, res: Response, next: NextFunction) => {
-  count += 1
-  return res.status(200).json({
-    message: count
-  })
+  if (keys) {
+    return res.status(200).json({
+      message: `Loaded ${keys.length} keys`
+    })
+  } else {
+    return res.status(200).json({
+      message: 'No keys were loaded'
+    })
+  }
+}
+
+const loadKeys = async (req: Request, res: Response, next: NextFunction) => {
+  keys = ApiKey.getAllKeys()
+  if (db.authorized) {
+    return res.status(200).json({
+      message: 'DB Connection GOOD'
+    })
+  } else {
+    return res.status(200).json({
+      message: 'DB Connection BAD'
+    })
+  }
 }
 
 /* // getting a single post
@@ -23,4 +42,4 @@ const getPost = async (req: Request, res: Response, next: NextFunction) => {
   })
 } */
 
-export default { getKey }
+export default { getKey, loadKeys }
