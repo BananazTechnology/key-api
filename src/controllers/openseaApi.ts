@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import { ApiKey } from '../classes/ApiKey'
-import { db } from '../db'
 // import axios, { AxiosResponse } from 'axios'
 
-let keys = ApiKey.getAllKeys()
+const keys: ApiKey[] = []
 
 const getKey = async (req: Request, res: Response, next: NextFunction) => {
   if (keys) {
@@ -18,16 +17,13 @@ const getKey = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 const loadKeys = async (req: Request, res: Response, next: NextFunction) => {
-  keys = ApiKey.getAllKeys()
-  if (db.authorized) {
-    return res.status(200).json({
-      message: 'DB Connection GOOD'
-    })
-  } else {
-    return res.status(200).json({
-      message: 'DB Connection BAD'
-    })
-  }
+  ApiKey.findAll((err: Error, keys: ApiKey[]) => {
+    if (err) {
+      return res.status(500).json({ errorMessage: err.message })
+    }
+
+    res.status(200).json({ data: keys })
+  })
 }
 
 /* // getting a single post
