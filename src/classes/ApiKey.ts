@@ -1,4 +1,4 @@
-import { db } from '../db'
+import { KeyDB } from '../db'
 import { RowDataPacket } from 'mysql2'
 
 // eslint-disable-next-line no-unused-vars
@@ -22,6 +22,8 @@ export class ApiKey {
   }
 
   static findAll = (callback: Function) => {
+    const db = KeyDB.getConnection()
+
     const queryString = `
       SELECT o.id, o.key
       FROM opensea_api AS o`
@@ -38,5 +40,7 @@ export class ApiKey {
       })
       callback(null, keys)
     })
+
+    db.end()
   }
 }
