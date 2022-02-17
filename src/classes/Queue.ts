@@ -31,7 +31,7 @@ export class Queue<ApiKeyT> {
 
     private timeCheck (date: Date) {
       const timePassed = new Date().valueOf() - date.valueOf()
-      const limit = 1000 * 15
+      const limit = 1000 * 5
 
       return timePassed > limit
     }

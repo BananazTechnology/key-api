@@ -1,4 +1,4 @@
-import { KeyDB } from '../db'
+import { KeyDB } from '../database/db'
 import { RowDataPacket } from 'mysql2'
 
 // eslint-disable-next-line no-unused-vars
