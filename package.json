@@ -25,8 +25,9 @@
     "eslint-plugin-promise": "^5.2.0"
   },
   "scripts": {
-    "start": "nodemon src/server.ts",
-    "build": "rm -rf build/ && prettier --write src/ && tsc"
+    "start": "ts-node src/server.ts",
+    "dev": "nodemon src/server.ts",
+    "build": "tsc -p ."
   },
   "repository": {
     "type": "git",
