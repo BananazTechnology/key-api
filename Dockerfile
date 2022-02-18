@@ -1,4 +1,3 @@
-# Following Example From https://javascript.plainenglish.io/build-a-production-ready-node-express-api-with-docker-9a45443427a0
 ARG PORT=3000
 
 FROM node:14-alpine AS node
@@ -15,13 +14,13 @@ WORKDIR /app
 COPY package*.json ./   
 
 # Install all dependencies
-RUN npm i               
+RUN npm install
 
 # Copy the rest of the code
 COPY . .                
 
 # Invoke the build script to transpile ts code to js
-RUN npm run build    
+RUN npm run build
 
 # Open desired port
 EXPOSE ${PORT}
@@ -40,13 +39,13 @@ ENV NODE_ENV production
 RUN apk --no-cache -U upgrade
 
 # Prepare destination directory and ensure user node owns it
-RUN mkdir -p /home/node/app/dist && chown -R node:node /home/node/app
+RUN mkdir -p /home/node/app/build && chown -R node:node /home/node/app
 
 # Set CWD
 WORKDIR /home/node/app
 
 # Install PM2
-RUN npm i -g pm2
+RUN npm install -g pm2
 
 # Copy package.json, package-lock.json and process.yml
 COPY package*.json process.yml ./
@@ -55,13 +54,13 @@ COPY package*.json process.yml ./
 USER node
 
 # Install libraries as user node
-RUN npm i --only=production
+RUN npm install --only=production
 
 # Copy js files and change ownership to user node
-COPY --chown=node:node --from=builder /app/dist ./dist
+COPY --chown=node:node --from=builder /app/build ./build
 
 # Open desired port
 EXPOSE ${PORT}
 
-# Use PM2 to run the application as stated in config file
-ENTRYPOINT ["pm2-runtime", "./process.yml"] 
+# Use js files to run the application
+ENTRYPOINT ["pm2-runtime", "./process.yml"]  

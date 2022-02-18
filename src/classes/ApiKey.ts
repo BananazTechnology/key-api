@@ -34,10 +34,12 @@ export class ApiKey {
       const rows = <RowDataPacket[]> result
       const keys: ApiKey[] = []
 
-      rows.forEach(row => {
-        const key: ApiKey = new ApiKey(row.id, row.key)
-        keys.push(key)
-      })
+      if (rows) {
+        rows.forEach(row => {
+          const key: ApiKey = new ApiKey(row.id, row.key)
+          keys.push(key)
+        })
+      }
       callback(null, keys)
     })
 
