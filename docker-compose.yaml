@@ -5,6 +5,12 @@ services:
     image: bananaztech/key-sys-api-ts:latest
     container_name: key-api-ts-prod
     restart: always
+    environment:
+      DB_PORT: 3306
+      DB_HOST: "example.com"
+      DB_USER: "Key-API"
+      DB_PWD: "example"
+      DB_NAME: "keys"
     ports:
       - "3300:3000"
 
