@@ -5,7 +5,6 @@ import { RowDataPacket } from 'mysql2'
 export class ApiKey {
   private id: number;
   private key: string;
-  private lastUse?: Date;
 
   constructor (id: number, key: string) {
     this.id = id
@@ -13,12 +12,7 @@ export class ApiKey {
   }
 
   getKey (): string {
-    this.lastUse = new Date()
     return this.key
-  }
-
-  getLastUse (): Date | undefined {
-    return this.lastUse
   }
 
   static findAll = (callback: Function) => {

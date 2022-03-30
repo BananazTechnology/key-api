@@ -13,26 +13,15 @@ export class Queue<ApiKeyT> {
     }
 
     rotate (): ApiKey | undefined {
-      const lastUse = this.storage[0].getLastUse()
-      if (!lastUse || this.timeCheck(lastUse)) {
-        const val = this.dequeue()
-        val?.getKey()
-        if (val) {
-          this.enqueue(val)
-        }
-        return val
+      const val = this.dequeue()
+      val?.getKey()
+      if (val) {
+        this.enqueue(val)
       }
-      return undefined
+      return val
     }
 
     size (): number {
       return this.storage.length
-    }
-
-    private timeCheck (date: Date) {
-      const timePassed = new Date().valueOf() - date.valueOf()
-      const limit = 1000 * 5
-
-      return timePassed > limit
     }
 }
