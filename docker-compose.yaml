@@ -1,14 +1,14 @@
 version: "3.8"
 
 services:
-  key-api:
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    image: key-api:test
-    container_name: key-api
+  key-sys-api-ts:
+    image: bananaztech/key-sys-api-ts:latest
+    container_name: key-api-ts-prod
     restart: always
-    stdin_open: true
-    tty: true
     ports:
       - "3300:3000"
+
+networks:
+  default:
+    external:
+      name: frontend
